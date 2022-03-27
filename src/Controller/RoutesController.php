@@ -27,8 +27,15 @@ class RoutesController extends AbstractController
      * @Route("/calculator", "calculator")
      */
     public function showCalculator(CalculatorService $calculatorService){
-        $calculatorService->calculator();
         $em = $this->getDoctrine()->getManager();
+        $developer = $em->getRepository(Developer::class)->findAll();
+        if (count($developer) > 2){
+            $calculatorService->calculator();
+
+        }else{
+            return $this->redirect("/developer");
+
+        }
 
         $developerTask = $em->getRepository(DeveloperTask::class)->findAll();
 
