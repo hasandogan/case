@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\DeveloperEntity;
+use App\Entity\Developer;
 use Doctrine\ORM\EntityManagerInterface;
 
 class DeveloperService
@@ -18,7 +18,7 @@ class DeveloperService
 
     public function createDeveloper($data)
     {
-        $developer = new DeveloperEntity();
+        $developer = new Developer();
 
         $developer->setName($data["name"]);
         $developer->setDifficulty($data["difficulty"]);

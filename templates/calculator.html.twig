@@ -1,0 +1,32 @@
+{% extends "base.html.twig" %}
+{% block header %}
+    {{ parent() }}
+
+{% endblock %}
+
+{% block body %}
+    {{ parent() }}
+{% endblock %}
+{% block context %}
+    <table id="example" class="display" style="width:100%">
+        <thead>
+        <tr>
+            <th>Taskid</th>
+            <th>dev id</th>
+            <th>duration</th>
+            <th>week</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for dev in data %}
+        <tr>
+            <td>{{ dev.id }}</td>
+            <td>{{ dev.devId }}</td>
+            <td>{{ dev.duration }}</td>
+            <td>{{ dev.week }}</td>
+        </tr>
+        {% endfor %}
+        </tfoot>
+    </table>
+{% endblock %}

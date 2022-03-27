@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\DeveloperEntity;
+use App\Entity\Developer;
 use App\Service\DeveloperService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;

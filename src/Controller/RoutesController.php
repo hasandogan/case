@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\DeveloperEntity;
+use App\Entity\Developer;
+use App\Entity\DeveloperTask;
 use App\Service\CalculatorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,7 +28,13 @@ class RoutesController extends AbstractController
      */
     public function showCalculator(CalculatorService $calculatorService){
         $calculatorService->calculator();
-        return $this->render('developer.html.twig');
+        $em = $this->getDoctrine()->getManager();
+
+        $developerTask = $em->getRepository(DeveloperTask::class)->findAll();
+
+        return $this->render('calculator.html.twig',[
+            'data' => $developerTask
+        ]);
     }
 
 
@@ -36,7 +43,7 @@ class RoutesController extends AbstractController
      */
     public function showDeveloperListAction(){
         $em = $this->getDoctrine()->getManager();
-        $developer = $em->getRepository(DeveloperEntity::class)->findAll();
+        $developer = $em->getRepository(Developer::class)->findAll();
 
         return $this->render('developer-list.html.twig',[
             'data' => $developer

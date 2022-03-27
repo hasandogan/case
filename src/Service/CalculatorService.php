@@ -3,8 +3,8 @@
 namespace App\Service;
 
 use App\Entity\BusinessTask;
-use App\Entity\DeveloperEntity;
-use App\Entity\DeveloperJobs;
+use App\Entity\Developer;
+use App\Entity\DeveloperTask;
 use Doctrine\ORM\EntityManagerInterface;
 
 class CalculatorService
@@ -18,14 +18,14 @@ class CalculatorService
 
     public function calculator()
     {
-        $developer = $this->entityManager->getRepository(DeveloperEntity::class)->findBy([], ['difficulty' => 'DESC']);
+        $developer = $this->entityManager->getRepository(Developer::class)->findBy([], ['difficulty' => 'DESC']);
         $businessTask = $this->entityManager->getRepository(BusinessTask::class)->findBy([], ['difficulty' => 'DESC']);
         $weekly = 45;
         $week = 1;
 
         do {
             /**
-             * @var DeveloperEntity $dev
+             * @var Developer $dev
              */
             foreach ($developer as $dev) {
                 /**
@@ -42,29 +42,28 @@ class CalculatorService
                         if ($this->checkTaskId($jobs->getId())) {
                             continue;
                         }
-                        $developerJobs = new DeveloperJobs();
-                        $developerJobs->setDevId($dev->getId());
-                        $developerJobs->setTaskId($jobs->getId());
-                        $developerJobs->setDuration($jobDurationForThisDeveloper);
-                        $developerJobs->setWeek($week);
+                        $developerTask = new DeveloperTask();
+                        $developerTask->setDevId($dev->getId());
+                        $developerTask->setTaskId($jobs->getId());
+                        $developerTask->setDuration($jobDurationForThisDeveloper);
+                        $developerTask->setWeek($week);
 
-                        $this->entityManager->persist($developerJobs);
+                        $this->entityManager->persist($developerTask);
                         $this->entityManager->flush();
 
                     }
                 }
             }
             $week++;
-        }
-        while (!$this->isAllJobsDone($businessTask)) ;
+        } while (!$this->isAllJobsDone($businessTask));
     }
 
-    public function checkDurationOfDeveloper($devId, $weekly, $jobDurationForThisDeveloper,$week)
+    public function checkDurationOfDeveloper($devId, $weekly, $jobDurationForThisDeveloper, $week)
     {
         /**
-         * @var DeveloperJobs $developer
+         * @var DeveloperTask $developer
          */
-        $developersJobs = $this->entityManager->getRepository(DeveloperJobs::class)->findByCountDuration($devId,$week);
+        $developersJobs = $this->entityManager->getRepository(DeveloperTask::class)->findByCountDuration($devId, $week);
 
         if (!$developersJobs) {
             return true;
@@ -78,10 +77,10 @@ class CalculatorService
     public function checkTaskId($taskId)
     {
         /**
-         * @var DeveloperJobs $developer
+         * @var DeveloperTask $developer
          */
 
-        $developersJobsTask = $this->entityManager->getRepository(DeveloperJobs::class)->findOneBy(['taskId' => $taskId]);
+        $developersJobsTask = $this->entityManager->getRepository(DeveloperTask::class)->findOneBy(['taskId' => $taskId]);
         if ($developersJobsTask) {
             return true;
         }
@@ -90,10 +89,11 @@ class CalculatorService
     public function isAllJobsDone($businessTask)
     {
         if (!$businessTask || count($businessTask) == 0) {
-                return true;
+            return true;
         }
-        $developersJobs = $this->entityManager->getRepository(DeveloperJobs::class)->findAll();
-        return count($businessTask) == count($developersJobs) ;
+        $developersJobs = $this->entityManager->getRepository(DeveloperTask::class)->findAll();
+        return count($businessTask) == count($developersJobs);
     }
+
 
 }

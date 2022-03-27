@@ -2,13 +2,13 @@
 
 namespace App\Entity;
 
-use App\Repository\DeveloperJobsRepository;
+use App\Repository\DeveloperTaskRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=DeveloperJobsRepository::class)
+ * @ORM\Entity(repositoryClass=DeveloperTaskRepository::class)
  */
-class DeveloperJobs
+class DeveloperTask
 {
     /**
      * @ORM\Id
@@ -19,6 +19,7 @@ class DeveloperJobs
 
     /**
      * @ORM\Column(type="integer")
+     * @ORM\OneToMany(targetEntity="Developer", mappedBy="id")
      */
     private $devId;
 

@@ -2,30 +2,30 @@
 
 namespace App\Repository;
 
-use App\Entity\DeveloperJobs;
+use App\Entity\DeveloperTask;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method DeveloperJobs|null find($id, $lockMode = null, $lockVersion = null)
- * @method DeveloperJobs|null findOneBy(array $criteria, array $orderBy = null)
- * @method DeveloperJobs[]    findAll()
- * @method DeveloperJobs[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method DeveloperTask|null find($id, $lockMode = null, $lockVersion = null)
+ * @method DeveloperTask|null findOneBy(array $criteria, array $orderBy = null)
+ * @method DeveloperTask[]    findAll()
+ * @method DeveloperTask[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class DeveloperJobsRepository extends ServiceEntityRepository
+class DeveloperTaskRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, DeveloperJobs::class);
+        parent::__construct($registry, DeveloperTask::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(DeveloperJobs $entity, bool $flush = true): void
+    public function add(DeveloperTask $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class DeveloperJobsRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(DeveloperJobs $entity, bool $flush = true): void
+    public function remove(DeveloperTask $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -45,9 +45,9 @@ class DeveloperJobsRepository extends ServiceEntityRepository
         }
     }
 
-     /**
-      * @return DeveloperJobs[] Returns an array of DeveloperJobs objects
-      */
+    /**
+     * @return DeveloperTask[] Returns an array of DeveloperTask objects
+     */
 
     public function findByCountDuration($value,$week)
     {
@@ -65,8 +65,10 @@ class DeveloperJobsRepository extends ServiceEntityRepository
 
 
 
+
+
     // /**
-    //  * @return DeveloperJobs[] Returns an array of DeveloperJobs objects
+    //  * @return DeveloperTask[] Returns an array of DeveloperTask objects
     //  */
     /*
     public function findByExampleField($value)
@@ -83,7 +85,7 @@ class DeveloperJobsRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?DeveloperJobs
+    public function findOneBySomeField($value): ?DeveloperTask
     {
         return $this->createQueryBuilder('d')
             ->andWhere('d.exampleField = :val')

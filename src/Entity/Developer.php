@@ -2,18 +2,19 @@
 
 namespace App\Entity;
 
-use App\Repository\DeveloperEntityRepository;
+use App\Repository\DeveloperRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=DeveloperEntityRepository::class)
+ * @ORM\Entity(repositoryClass=DeveloperRepository::class)
  */
-class DeveloperEntity
+class Developer
 {
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\ManyToOne(targetEntity="DeveloperTask", inversedBy="devId")
      */
     private $id;
 
